@@ -1,5 +1,4 @@
 from django.db import models
-
 class Products(models.Model):
 
     def get_absolute_url(self):

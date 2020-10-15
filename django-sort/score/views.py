@@ -7,20 +7,16 @@ from django.views.generic import CreateView
 from django.core.paginator import Paginator
 import random
 from operator import attrgetter
-
 from .models import Products
+from django.db.models import Func, F
 # Create your views here.
+
 
 @login_required
 def index(request):
-    # retrieve products from db
-    products = Products.objects.all()
-    # call sort function for each product
-    for product in products:
-        product.score = round(random.random(),1)
-    # sort products according to their score
-    products = sorted(products, key=attrgetter('score'), reverse=True)
-    # pagination
+
+    products = Products.objects.annotate(relevance = F('id') % 7 ).order_by('relevance')
+
     paginator = Paginator(products, 25)
 
     page_number = request.GET.get('page')
