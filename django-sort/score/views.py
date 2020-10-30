@@ -15,7 +15,7 @@ from django.db.models import Func, F
 @login_required
 def index(request):
 
-    products = Products.objects.annotate(relevance = F('id') % 7 ).order_by('relevance')
+    products = Products.objects.annotate(relevance = F('id') % 36.9 ).order_by('relevance')
 
     paginator = Paginator(products, 25)
 
