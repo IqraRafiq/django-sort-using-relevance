@@ -5,17 +5,15 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView
 from django.core.paginator import Paginator
-import random
-from operator import attrgetter
 from .models import Products
-from django.db.models import Func, F
-# Create your views here.
+
+# Create your views here
 
 
 @login_required
 def index(request):
-
-    products = Products.objects.annotate(relevance = F('id') % 36.9 ).order_by('relevance')
+        
+    products = Products.objects.score();
 
     paginator = Paginator(products, 25)
 
